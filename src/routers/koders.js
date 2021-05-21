@@ -1,8 +1,9 @@
 const express = require('express')
-const koders = require('../usecases/koders')
 const router = express.Router()
+const koders = require('../usecases/koders')
 
-router.use(express.json())
+
+/*router.use(express.json())*/
 
 router.get('/', async (request, response) => {
     try{
@@ -51,16 +52,16 @@ router.post('/', async (request, response)=>{
 })
 
 router.delete('/:id', async (request, response) =>{
+    
     try{
         
-      const idKoder = request.params.id
-       console.log(idKoder)
-      //  await koders.deleteKoder(idKoder)
+      const idKoder = parseInt(request.params.id)
+      const koderDeleted =  await koders.deleteKoder(idKoder)
 
         response.json({
             success: true,
             message: 'Deleted Koder',
-            data:{}
+            data:{koder: koderDeleted}
         })
 
     }catch(error){
