@@ -2,8 +2,27 @@ const express = require('express')
 const router = express.Router()
 const koders = require('../usecases/koders')
 
+router.delete('/:id', async (request, response)=>{
+    try{
+        await koders.deleteKoder(request.params.id)
 
-/*router.use(express.json())*/
+        response.json({
+            success: true,
+            message: 'Deleted Koder',
+            data:{}
+        })
+
+    }catch(error){
+        response.status(400)
+        response.json({
+            success: false,
+            message: 'Error at delete koder',
+            data: {
+                error: error.message
+            }
+        })
+    }
+})
 
 router.get('/', async (request, response) => {
     try{
@@ -51,29 +70,5 @@ router.post('/', async (request, response)=>{
     }
 })
 
-router.delete('/:id', async (request, response) =>{
-    
-    try{
-        
-      const idKoder = parseInt(request.params.id)
-      const koderDeleted =  await koders.deleteKoder(idKoder)
-
-        response.json({
-            success: true,
-            message: 'Deleted Koder',
-            data:{koder: koderDeleted}
-        })
-
-    }catch(error){
-        response.status(400)
-        response.json({
-            success: false,
-            message: 'Error at delete koder',
-            data: {
-                error: error.message
-            }
-        })
-    }
-})
 
 module.exports = router
