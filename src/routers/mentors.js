@@ -1,22 +1,22 @@
 const express = require('express')
 const router = express.Router()
-const koders = require('../usecases/koders')
+const mentors = require('../usecases/mentors')
 
 router.get('/', async (request, response) => {
     try{
-        const allKoders = await koders.getAll()
+        const allMentors = await mentors.getAll()
         response.json({
             success: true,
-            message: 'All koders',
+            message: 'All mentors',
             data: {
-                koders: allKoders
+                mentors: allMentors
             }
         })
     }catch(error){
         response.status(400)
         response.json({
             success: false,
-            message: 'Error at get all koders',
+            message: 'Error at get all mentors',
             data: {
                 error: error.message
             }
@@ -26,15 +26,15 @@ router.get('/', async (request, response) => {
 
 router.post('/', async (request, response)=>{
     try{
-        const {name, lastName, age, gender} = request.body
+        const {name, lastname, age, gender, modulo} = request.body
 
-        const koderCreated = await koders.createKoder(name, lastName, age, gender)
+        const mentorCreated = await mentors.create(name, lastname, age, gender,modulo)
 
         response.json({
             success: true,
-            message: 'Created Koder',
+            message: 'Created Mentor',
             data:{
-                koder: koderCreated
+                mentor: mentorCreated
             }
         })
 
@@ -42,7 +42,7 @@ router.post('/', async (request, response)=>{
         response.status(400)
         response.json({
             success: false,
-            message: 'Error at post koder',
+            message: 'Error at post mentor',
             data: {
                 error: error.message
             }
@@ -53,13 +53,13 @@ router.post('/', async (request, response)=>{
 router.delete('/:id', async (request, response)=>{
     try{
         const {id} = request.params
-        const koderDeleted = await koders.deleteKoder(id)
+        const mentorDeleted = await mentors.deleteById(id)
 
         response.json({
             success: true,
-            message: 'Deleted Koder',
+            message: 'Deleted Mentor',
             data:{
-                koder: koderDeleted
+                mentor: mentorDeleted
             }
         })
 
@@ -67,7 +67,7 @@ router.delete('/:id', async (request, response)=>{
         response.status(400)
         response.json({
             success: false,
-            message: 'Error at delete koder',
+            message: 'Error at delete mentor',
             data: {
                 error: error.message
             }
@@ -78,12 +78,12 @@ router.delete('/:id', async (request, response)=>{
 router.patch('/:id', async(request, response)=>{
     try{
         const {id} = request.params
-        const koderUpdated = await koders.updateById(id, request.body)
+        const mentorUpdated = await mentors.updateById(id, request.body)
         response.json({
             success: true,
-            message: 'Koder updated',
+            message: 'Mentor updated',
             data:{
-                koder: koderUpdated
+                mentor: mentorUpdated
             }
         })
 
@@ -91,7 +91,7 @@ router.patch('/:id', async(request, response)=>{
         response.status(400)
         response.json({
             success: false,
-            message: 'Error at koder update',
+            message: 'Error at mentor update',
             data: {
                 error: error.message
             }
@@ -100,17 +100,3 @@ router.patch('/:id', async(request, response)=>{
 })
 
 module.exports = router
-
-/*
-Practica:
-  GET /mentores
-  POST /mentores
-  DELETE /mentores/:id
-  PATCH /mentores/:id
-  Mentors
-  - name
-  - lastName
-  - age
-  - gender
-  - modulo [ 'front', 'back', 'cloud', 'react' ]
-*/
