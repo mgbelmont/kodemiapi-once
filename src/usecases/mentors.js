@@ -13,7 +13,7 @@ function deleteById(id){
 }
 
 function updateById(id, dataToUpdate){
-    return Mentors.findByIdAndUpdate(id, dataToUpdate)
+    return Mentors.findByIdAndUpdate(id, dataToUpdate,{useFindAndModify: false})
 }
 
 module.exports = {
