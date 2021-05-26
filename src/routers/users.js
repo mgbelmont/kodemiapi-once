@@ -43,4 +43,28 @@ response.json({
     }
 })
 
+router.post('/login', async(request, response) =>{
+    try{
+        const {email, password } = request.body
+        const token = await users.login(email, password)
+
+        response.json({
+            success: true,
+            message: 'Logged in',
+            data: {
+                token: token
+            }
+        })
+    }catch(error){
+        response.status(400)
+        response.json({
+            success: false,
+            message: 'Could not log in',
+            data: {
+                error: error.message
+            }
+        })
+    }
+})
+
 module.exports = router
