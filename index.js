@@ -1,4 +1,7 @@
 // servidor y la BD
+require('dotenv').config()
+//console.log('env: ', process.env)
+
 const server = require('./src/server')
 
 const dbConnect = require('./src/lib/db')
